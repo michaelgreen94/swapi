@@ -9,7 +9,7 @@ export default class SwapiService {
       .then(res => res.json())
       .then(res => {
         let myPeople = res.results.map(rawPerson => {
-          let person = new Person(rawPerson)
+          return new Person(rawPerson)
 
         })
         draw(myPeople)
