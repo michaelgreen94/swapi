@@ -1,5 +1,7 @@
 import SwapiService from "./swapi-service.js"
 
+let people = {}
+
 const swapiService = new SwapiService()
 let app = document.getElementById('app')
 
