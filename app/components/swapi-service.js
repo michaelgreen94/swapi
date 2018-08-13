@@ -1,9 +1,10 @@
 import Person from "../models/Person.js"
+import StarShip from "../models/StarShips.js"
+import Vehicle from '../models/Vehicles.js'
 
 export default class SwapiService {
 
   getPeople(draw, drawError) {
-    console.log("hello from swapiservice")
     fetch('https://swapi.co/api/people')
       .then(res => res.json())
       .then(res => {
@@ -13,17 +14,30 @@ export default class SwapiService {
         draw(myPeople)
       })
       .catch(drawError)
-  })
-  console.log('here i am')
-}
+  }
 
-getStarships(draw, drawError) {
-  console.log("hello from service")
-  fetch('https://swapi.co/api/starships')
-    .then(res => res.json())
-    .then(draw)
-    .catch(drawError)
-  console.log('here i am')
-}
+  getStarships(draw, drawError) {
+    fetch('https://swapi.co/api/starships')
+      .then(res => res.json())
+      .then(res => {
+        let myStarships = res.results.map(starship => {
+          return new StarShip(starship)
+        })
+        draw(myStarships)
+      })
+      .catch(drawError)
+  }
+
+  getVehicles(draw, drawError) {
+    fetch('https://swapi.co/api/vehicles')
+      .then(res => res.json())
+      .then(res => {
+        let myVehicles = res.results.map(vehicle => {
+          return new Vehicle(vehicle)
+        })
+        draw(myVehicles)
+      })
+      .catch(drawError)
+  }
 
 }

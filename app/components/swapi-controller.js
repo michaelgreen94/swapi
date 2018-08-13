@@ -7,18 +7,42 @@ function draw(data) {
   console.log(data)
   app.innerHTML = `
   <div id="error"></div>
-  <button onclick="app.controllers.swapi.getStarships()">Get some Starships</button>
-  <div id="starships"></div>`
+  <button onclick="app.controllers.swapi.getStarships()">Browse Starships</button>
+  <button onclick="app.controllers.swapi.getVehicles()">Browse Vehicles</button>
+  <button onclick="app.controllers.swapi.getPeople()">Choose Target</button>
+  <div id="starships"></div>
+  <div id="vehicles"></div>
+  <div id="people"></div>`
 }
 
 function drawStarships(data) {
   let starshipsElem = document.getElementById('starships')
   let template = ''
-  data.results.forEach(starship => {
+  data.forEach(starship => {
     template += `
     <div>${starship.name}</div>`
   })
   starshipsElem.innerHTML = template
+}
+
+function drawPeople(data) {
+  let peopleElem = document.getElementById('people')
+  let template = ''
+  data.forEach(person => {
+    template += `
+    <div>${person.name}</div>`
+  })
+  peopleElem.innerHTML = template
+}
+
+function drawVehicles(data) {
+  let vehicleElem = document.getElementById('vehicles')
+  let template = ''
+  data.forEach(vehicle => {
+    template += `
+    <div>${vehicle.name}</div>`
+  })
+  vehicleElem.innerHTML = template
 }
 
 function drawError(error) {
@@ -32,7 +56,14 @@ export default class SwapiController {
     draw()
   }
   getStarships() {
-    console.log("hello from controller")
-    swapiService.getStarships(console.log, drawError)
+    swapiService.getStarships(drawStarships, drawError)
+  }
+
+  getPeople() {
+    swapiService.getPeople(drawPeople, drawError)
+  }
+
+  getVehicles() {
+    swapiService.getVehicles(drawVehicles, drawError)
   }
 }
